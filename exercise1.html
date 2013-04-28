@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html lang="en-US" ng-app>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no">
+	<title>Jewel</title>
+	
+	<link rel="stylesheet/less" type="text/css" href="styles/main.less" />
+
+<!-- 
+ 	<link rel="stylesheet" type="text/css" href="styles/main.css"/>
+ -->
+
+    <script src="scripts/jquery-2.0.0.min.js"></script>
+	<script src="scripts/less-1.3.3.min.js"></script>
+	<script src="scripts/angular.min.js"></script>
+    <script src="scripts/yepnope.1.5.4-min.js"></script>
+    <script src="scripts/entry.js"></script>
+	<script src="scripts/board.worker-interface.js"></script>
+</head>
+<body>
+	<div id="game" ng-controller="testCtrl">
+        <div ng-switch on='game'>
+            <div ng-switch-when="0" class="screen" id="splash-screen">
+                <h2 class="logo">Jewel <br/>Warrior</h2>
+                <progress class="loader" value="{{getProgress()}}" max="100"></progress>
+                <span class="continue-text" ng-click="moveTo(1)">press space to continue...</span>
+            </div>
+            <div ng-switch-when="1" class="screen" id="main-menu">
+                <h2 class="logo">Jewel <br/> Warrior</h2>
+                <ul class="menu">
+                    <li><button name="game-screen" ng-click="moveTo(2)">start</button>
+                    <li><button name="hiscore" ng-click="moveTo(3)">high score</button>
+                    <li><button name="about" ng-click="moveTo(1)">about</button>
+                    <li><button name="exit-screen" ng-click="moveTo(0)">exit</button>
+                </ul>
+            </div>
+            <div ng-switch-when="2" class="screen" id="game-screen" ng-controller="gameCtrl">
+                <span ng-click="moveTo(1)">under construction</span>
+                <canvas id="mycanvas" width="250" height="250">
+
+                </canvas>
+            </div>
+            <div ng-switch-when="3" class="screen" id="high-score">
+                <span ng-click="moveTo(1)">under construction</span>
+            </div>
+        </div>
+	</div>
+<!-- 
+<canvas is="mycanvas"></canvas>
+<script>
+	var canvas=document.getElementById("mycanvas"),
+		ctx = canvas.getContext("2d");
+	canvas.width=200;
+	canvas.height=200;
+	ctx.fillStyle = "blue";
+	ctx.beginPath();
+	ctx.arc(50, 50, 25, 0, Math.PI * 2, true);
+	ctx.arc(150, 50, 25, 0, Math.PI * 2, true);
+	ctx.fill();
+</script>
+ -->
+
+</body>
+</html>

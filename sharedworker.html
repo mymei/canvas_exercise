@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>소수예제</title>
+    <script src="scripts/jquery-2.0.0.min.js"></script>
+    <!--<script src="shared-worker.js"></script>-->
+</head>
+<body>
+숫자(n) : <input id="number" value="1125899839733759">
+<button id="check">소수검사</button><br/><br/>
+<button id="click-test">클릭해보세요</button>
+<script>
+    $("#check").click(function() {
+        var n = parseInt($("#number")[0].value, 10),
+                work = new Worker("prime-worker.js");
+        work.addEventListener("message", function(event) {
+            if (event.data) {
+                alert(n+"은 소수입니다.");
+            } else {
+                alert(n+"은 소수가 아닙니다.");
+            }
+        }, false);
+        work.postMessage(n);
+    });
+    $("#click-test").click(function() {
+        alert("hello");
+    });
+</script>
+</body>
+</html>
