@@ -1,3 +1,13 @@
+var jewel = {};
+jewel.settings = {
+    rows: 8,
+    cols: 8,
+    baseScore: 100,
+    numJewelTypes: 7,
+    jewelSize:40
+};
+jewel.images = {}
+
 jewel.board = (function() {
     var settings, worker, messageCount, callbacks, jewels, rows, cols;
     function initialize(callback) {
