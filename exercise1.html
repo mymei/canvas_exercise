@@ -15,7 +15,12 @@
 	<script src="scripts/less-1.3.3.min.js"></script>
 	<script src="scripts/angular.min.js"></script>
     <script src="scripts/yepnope.1.5.4-min.js"></script>
+    <script type="text/javascript" src="scripts/angular-modules.js"></script>
     <script src="scripts/entry.js"></script>
+    <script type="text/javascript" src="scripts/input.js"></script>
+    <script type="text/javascript" src="scripts/display.js"></script>
+    <script type="text/javascript" src="scripts/controller.js"></script>
+    <script type="text/javascript" src="scripts/audio.js"></script>
 	<script src="scripts/board.worker-interface.js"></script>
 </head>
 <body>
@@ -36,13 +41,22 @@
                 </ul>
             </div>
             <div ng-switch-when="2" class="screen" id="game-screen" ng-controller="gameCtrl">
-                <span ng-click="moveTo(1)">under construction</span>
-                <canvas id="mycanvas" width="250" height="250">
+                <span class="underconstruction" ng-click="moveTo(1)">under construction</span>
+                <div class="game-board jewel-size">
+                    <div class="announcement">{{announcement()}}</div>
+                    <canvas id="mycanvas" width="250" height="250" ng-click="click($event)">
+                </div>
 
                 </canvas>
+                <div class="game-info">
+                    <label class="level">level: <span>{{level}}</span></label>
+                    <label class="score">score: <span>{{score}}</span></label>
+                </div>
+                <div class="time"><div class="indicator"></div></div>
+                <progress value="{{time}}" max="100" style="width:100%"></progress>
             </div>
             <div ng-switch-when="3" class="screen" id="high-score">
-                <span ng-click="moveTo(1)">under construction</span>
+                <span class="underconstruction" ng-click="moveTo(1)">under construction</span>
             </div>
         </div>
         <div class="background">

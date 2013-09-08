@@ -1,11 +1,3 @@
-var jewel = {};
-jewel.settings = {
-    rows: 8,
-    cols: 8,
-    baseScore: 100,
-    numJewelTypes: 7
-};
-
 jewel.board = (function() {
     var settings,
         jewels,
@@ -29,7 +21,7 @@ jewel.board = (function() {
         for (x = 0; x < cols; x++) {
             jewels[x] = [];
             for (y = 0; y < rows; y++) {
-                randomJewel();
+                jewels[x][y] = randomJewel();
 //                do {
 //                    jewels[x][y] = randomJewel();
 //                } while (
@@ -85,6 +77,9 @@ jewel.board = (function() {
 
         return chain;
     }
+
+
+    
     function isAdjacent(x1, y1, x2, y2) {
         var dx = Math.abs(x1 - x2),
             dy = Math.abs(y1 - y2);
@@ -166,15 +161,19 @@ jewel.board = (function() {
     }
     function swap(x1, y1, x2, y2, callback) {
 
+        var swap1 = {type:"move",data:[{type:getJewel(x1, y1),fromX:x1,fromY:y1,toX:x2,toY:y2},{type:getJewel(x2, y2),fromX:x2,fromY:y2,toX:x1,toY:y1}]};
+        // var swap2 = {type:"move",data:[{type:getJewel(x2, y2),fromX:x1,fromY:y1,toX:x2,toY:y2},{type:getJewel(x1, y1),fromX:x2,fromY:y2,toX:x1,toY:y1}]};
+
         if (canSwap(x1, y1, x2, y2)) {
             var tmp = getJewel(x1, y1);
             jewels[x1][y1] = getJewel(x2, y2);
             jewels[x2][y2] = tmp;
 
-            var events = check();
+            var events = [swap1];
+            events = events.concat(check());
             callback(events);
         } else {
-            callback([]);
+            callback([swap1, swap1, {type:"badswap"}]);
         }
     }
     function print() {

@@ -1,0 +1,61 @@
+<canvas id="canvas" width='400' height='300' style="background-color:rgba(0, 0, 0, 0.5)"></canvas>
+<script type="text/javascript" src="../scripts/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="../scripts/glMatrix-0.9.5.min.js"></script>
+<script type="text/javascript" src="../scripts/webgl-debug.js"></script>
+<script type="text/javascript" src="../scripts/webgl.js"></script>
+<script type="text/javascript" src="../scripts/collada_parser.js"></script>
+<script type="text/javascript" src="../scripts/msgpack.js"></script>
+<script type="text/javascript">
+	var canvas = document.getElementById("canvas"), gl = canvas.getContext('experimental-webgl');
+	// gl = WebGLDebugUtils.makeDebugContext(gl);
+
+	gl.clearColor(0.15, 0.15, 1, 0.5);
+	gl.enable(gl.DEPTH_TEST);
+
+	var dogDE = new DrawingElement('./my_shader.vs', './my_shader2.fs');
+	dogDE.initAsset('./dog.dae');
+	var gonDE = new DrawingElement('./my_shader.vs', './my_shader2.fs');
+	gonDE.initPackedAsset('./sphere.mbf');
+	var sphereDE = new DrawingElement('./my_shader_skin.vs', './my_shader2.fs');
+	sphereDE.initAsset('./skinning.dae');
+	var jewelDE = new DrawingElement('./my_shader_skin.vs', './my_shader2.fs');
+	jewelDE.initAsset('./eagle.dae');
+
+	var primitives = {};
+	primitives.a = new Primitive(dogDE, getTransform([2, 0, -5], [0, 1, 0, 0], [0.1, 0.1, 0.1]));
+	primitives.b = new Primitive(gonDE, getTransform([-100, -1, -5], [0, 0, 1, 0], [10, 10, 10]));
+	// // primitives.push(new Primitive(sphereDE, new Transform([0, 0, -5], [0, 0, 1, 0], [1, 1, 1])));
+	primitives.c = new Primitive(sphereDE, getTransform([0, 50, 0], [0, 0, 1, 0], [1, 1, 1]));
+	primitives.d = new Primitive(jewelDE, getTransform([-250, 0, 0], [0, 0, 1, 0], [0.01, 0.01, 0.01]));
+
+	// primitives.d = new Primitive(jewelDE, sphereDE.asset.skeleton.getJointTransform('joint1') );
+	// primitives.e = new Primitive(jewelDE, sphereDE.asset.skeleton.getJointTransform('joint2') );
+	// primitives.f = new Primitive(jewelDE, sphereDE.asset.skeleton.getJointTransform('joint3') );
+	// primitives.g = new Primitive(jewelDE, sphereDE.asset.skeleton.getJointTransform('joint4') );
+	// primitives.h = new Primitive(jewelDE, sphereDE.asset.skeleton.getJointTransform('joint5') );
+	// primitives.i = new Primitive(jewelDE, sphereDE.asset.skeleton.getJointTransform('joint6') );
+	// primitives.j = new Primitive(jewelDE, sphereDE.asset.skeleton.getJointTransform('joint7') );
+
+	var camera_trans = getTransform([0, 0, -505], [0, 1, 0, 0], [1, 1, 1]);
+	cycle(Date.now());
+
+	function cycle(time) {
+		gl.clear(gl.COLOR_BUFFER_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		gl.viewport(0, 0, canvas.width, canvas.height);
+
+		var rotation = time / 1000;
+		primitives.a.trm = getTransform([100, 0, 0], [rotation, 1, 0, 0], [0.1, 0.1, 0.1]);
+		primitives.b.trm = getTransform([-150, 0, 0], [rotation, 1, 0, 0], [10, 10, 10]);
+		primitives.c.trm = getTransform([0, 0, 0], [rotation, 1, 0, 0], [1, 1, 1]);
+		primitives.d.trm = getTransform([-250, 0, 0], [rotation, 1, 0, 0], [1, 1, 1]);
+		// primitives.a.trm.rot[0] = rotation;
+		// primitives.b.trm.rot[0] = rotation;
+		// primitives.c.trm.rot[0] = rotation;
+
+		$.each(primitives, function(k, prm) {
+			draw(prm, camera_trans);
+		});
+	
+		webkitRequestAnimationFrame(cycle);
+	}
+</script>

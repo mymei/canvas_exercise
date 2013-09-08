@@ -41,6 +41,9 @@ body {
 			
 		}
 	}
+	.underconstruction {
+		cursor : pointer;
+	}
 //	.screen.active {
 //		display : block;
 //	}
@@ -66,6 +69,39 @@ body {
         position : relative;
         width : 8em;
         height : 8em;
+        .announcement {
+        	position:absolute;
+        	left:0;
+        	top:50%;
+        	margin-top : -0.5em;
+        	width : 100%;
+
+        	z-index : 20;
+        	text-align : center;
+        	white-space : nowrap;
+        	pointer-events : none;
+        }
+      }
+      .game-info {
+      width : 100%;
+      float : left;
+      	label {
+      		display : inline-block;
+      		height : 1.5em;
+      		float : left;
+      		font-size : 0.6em;
+      		padding: 0.25em;
+      	}
+      	.score {
+      		float : right;
+      	}
+      }
+      .time {
+      	height : 0.25em;
+      	board-radius : 0.5em;
+      	.indicator {
+      		width:100%
+      	}
       }
     }
 	
